@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+  <head>
+    <title>Transparency Object Rendering Order</title>
+  </head>
+  <body>
+  <p>This package provides the user with partial control over the rendering order
+  transparent objects. This is useful for applications which contain a number
+  of transparent objects which are not positioned so that Java3D can 
+  automatically determine the rendering order based on the centroid of the 
+  shapes bounds.</p>
+  
+  <p>To provide the control of rendering order this package introduces a
+  TransparencyOrderedGroup. The semantics of this group are that all
+  transparent Shape3D in the first child subgraph (or child index) are rendered
+  before (therefore appearing behind) Shape3D's in the second child subgraph and
+  so on for subsequent children. For Shape3D's in the same subgraph of a
+  TransparencyOrderedGroup the rendering order is determined using the
+  default technique of distance to eye from center of a shapes bounds.</p>
+  
+  <p>TransparencyOrderedGroups can be nested within subgraphs of other 
+  TransparencyOrderedGroups.<p>
+  
+  <p>In order to use this package an instance of TransparencyOrderController must 
+  be attached to the scene graph. For example :</p>
+        <bold>locale.addBranchGraph(new TransparencyOrderController(view));</bold>
+        
+  </body>
+</html>

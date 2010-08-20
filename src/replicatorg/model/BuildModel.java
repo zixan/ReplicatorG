@@ -16,13 +16,18 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
-import org.j3d.renderer.java3d.loaders.ColladaLoader;
+
+import org.jdesktop.j3d.loaders.collada.Collada14Loader; // java3d library
+import org.j3d.renderer.java3d.loaders.ColladaLoader; // experimental
+import org.j3d.renderer.java3d.loaders.ColladaNewLoader; // wrapper for Collada14Loader
 import org.j3d.renderer.java3d.loaders.ObjLoader;
 import org.j3d.renderer.java3d.loaders.STLLoader;
 
 import replicatorg.app.Base;
 import replicatorg.app.ui.modeling.EditingModel;
 import replicatorg.model.j3d.StlAsciiWriter;
+
+import ch.randelshofer.quaqua.filechooser.AliasFileSystemTreeModel.Node;
 
 import com.sun.j3d.loaders.Loader;
 import com.sun.j3d.loaders.Scene;
@@ -33,6 +38,17 @@ public class BuildModel extends BuildElement {
 	private Transform3D transform = new Transform3D();
 	private Shape3D shape = null;
 	private EditingModel editListener = null;
+	
+	public String toString () {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n======= Begin BuildModel object =======\n");
+		sb.append("\n File = " + file);
+		sb.append("\n Transform = " + transform);
+		sb.append("\n Shape3D = " + shape.toString());
+		sb.append("\n EditListener = " + editListener.toString());
+		sb.append("\n======= End BuildModel object ========\n");
+		return (new String(sb));
+	}
 	
 	public void setEditListener(EditingModel eModel) {
 		editListener = eModel;
@@ -65,7 +81,19 @@ public class BuildModel extends BuildElement {
 	private Shape3D loadShape(Loader loader) {
 		Scene scene = null;
 		try {
+			System.out.println("\n\n\n\n\nCANONOICAL FILE PATH");
+			System.out.println(file.getCanonicalPath());
+			System.out.println("\nCANONOICAL FILE PATH\n\n\n");
+			
 			scene = loader.load(file.getCanonicalPath());
+			
+			System.out.println("\n\n ?????????????????????");
+		//	scene.getSceneGroup().compole();
+			System.out.println(scene.getSceneGroup().isLive());
+			System.out.println("\n ?????????????????????? \n\n\n");
+			
+			
+			
 		} catch (Exception e) {
 			Base.logger.log(Level.INFO,
 					"Could not load "+file.getPath()+
@@ -80,7 +108,9 @@ public class BuildModel extends BuildElement {
 	{
 		loaderExtensionMap.put("stl",new STLLoader());
 		loaderExtensionMap.put("obj",new ObjLoader());
-		loaderExtensionMap.put("dae",new ColladaLoader());
+		//loaderExtensionMap.put("dae",new ColladaLoader()); // Adama's parser
+		//loaderExtensionMap.put("dae",new ColladaNewLoader());
+		loaderExtensionMap.put("dae",new Collada14Loader());
 	}
 	
 	private void loadShape() {

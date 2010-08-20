@@ -92,6 +92,9 @@ public class EditingModel {
 		objectSwitch.setCapability(Switch.ALLOW_SWITCH_WRITE);
 		objectSwitch.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
 		solidShape.setCapability(Shape3D.ALLOW_GEOMETRY_READ);
+		// TEST
+		System.out.println("HEYY "+model);
+		// TEST 
 		solidShape.getGeometry().setCapability(GeometryArray.ALLOW_COUNT_READ);
 		solidShape.getGeometry().setCapability(GeometryArray.ALLOW_COORDINATE_READ);
 		solidShape.getGeometry().setCapability(GeometryArray.ALLOW_NORMAL_READ);
